@@ -17,8 +17,6 @@ co2.gnp/co3.gnp - (co2.surfacearea/co2.population)/(co4.surfacearea/co4.populati
 limit 10;
 
 #pr3-2
-(select 'GLE' as "Indicator", co1.name as "Federal Republic", co2.name as "Republic", co3.name as "Others"
-from country co1
 cross join 
 (
 	select* from country where country.governmentform = 'Republic'
@@ -27,13 +25,13 @@ cross join
 cross join 
 (
 	select* from country where country.governmentform <> 'Republic' and
-	country.governmentform <> 'Federal Republic' order by country.lifeexpectancy desc limit 1
+	country.governmentform <> 'Federal Republic' and country.lifeexpectancy is not null order by country.lifeexpectancy desc limit 1
 ) co3
 where co1.governmentform = 'Federal Republic'
 order by co1.lifeexpectancy desc limit 1)
 union distinct 
 (
-	select 'LLE' as "Indicator", co1.name as "Federal Republic", co2.name as "Republic", co3.name as "Others"
+	select 'LLE' as "Indicator", co1.lifeexpectancy as "Federal Republic", co2.lifeexpectancy as "Republic", co3.lifeexpectancy as "Others"
 from country co1
 cross join 
 (
@@ -47,4 +45,4 @@ cross join
 ) co3
 where co1.governmentform = 'Federal Republic'
 order by co1.lifeexpectancy asc limit 1
-) 
+)
