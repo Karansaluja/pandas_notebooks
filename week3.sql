@@ -16,7 +16,9 @@ abs(co1.gnp/co3.gnp + (co1.surfacearea/co1.population)/(co4.surfacearea/co4.popu
 co2.gnp/co3.gnp - (co2.surfacearea/co2.population)/(co4.surfacearea/co4.population)) 
 limit 10;
 
-#pr3-2
+#pr3
+select 'GLE' as "Indicator", co1.lifeexpectancy as "Federal Republic", co2.lifeexpectancy as "Republic", co3.lifeexpectancy (as "Others"
+from country col
 cross join 
 (
 	select* from country where country.governmentform = 'Republic'
