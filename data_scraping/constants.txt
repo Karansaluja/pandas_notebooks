@@ -33,8 +33,13 @@ distances_gathered =
  ('Robert Downey Jr.', 'Sofia Vergara'): 1,
  ('Jackie Chan', 'Scarlett Johansson'): 2,
  ('Jackie Chan', 'Chris Evans'): 2,
+ ('Akshay Kumar', 'Chris Hemsworth'): 2,
  ('Akshay Kumar', 'Dwayne Johnson'): 2,
  ('Akshay Kumar', 'Jackie Chan'): 2,
  ('Akshay Kumar', 'Bradley Cooper'): 2,
+ ('Adam Sandler', 'Akshay Kumar'): 2,
+ ('Akshay Kumar', 'Scarlett Johansson'): 2,
  ('Akshay Kumar', 'Sofia Vergara'): 2,
- ('Akshay Kumar', 'Chris Evans'): 2}
+ ('Akshay Kumar', 'Chris Evans'): 2,
+ ('Jackie Chan', 'Sofia Vergara'): 2,
+ ('Jackie Chan', 'Bradley Cooper'): 2}

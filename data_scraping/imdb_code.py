@@ -23,34 +23,40 @@ actors = {
 }
 
 def get_actors_by_movie_soup(cast_page_soup, num_of_actors_limit = None):
-    actor_table = cast_page_soup.find('table', class_ ='cast_list')
+    try:
+        actor_table = cast_page_soup.find('table', class_ ='cast_list')
 
-    actor_lists = []
+        actor_lists = []
 
-    if actor_table:
-        for row in actor_table.findAll('tr')[1:]:
-            columns = row.findAll('td')
-            if len(columns) > 1:
-                actor_info = row.findAll('td')[1]
-                actor_url = actor_info.find('a').get('href')
-                full_actor_url = base_url + f"{actor_url}"
-                actor_name = actor_info.find('a').getText().strip('\n').lstrip().rstrip('\r')
+        if actor_table:
+            for row in actor_table.findAll('tr')[1:]:
+                columns = row.findAll('td')
+                if len(columns) > 1:
+                    actor_info = row.findAll('td')[1]
+                    actor_url = actor_info.find('a').get('href')
+                    full_actor_url = base_url + f"{actor_url}"
+                    actor_name = actor_info.find('a').getText().strip('\n').lstrip().rstrip('\r')
 
-                actor_lists.append((actor_name, full_actor_url))
-    
-    if num_of_actors_limit:
-        return actor_lists[:num_of_actors_limit]
+                    actor_lists.append((actor_name, full_actor_url))
+        
+        if num_of_actors_limit:
+            return actor_lists[:num_of_actors_limit]
 
-    return actor_lists  
+        return actor_lists
+    except(TypeError, KeyError,AttributeError) as e:
+        print(f"Error: {e}")
 
 def get_movies_by_actor_soup(actor_page_soup, num_of_movies_limit = None):
-    movie_table = actor_page_soup.findAll('div', id=re.compile('^actor-|^actress-'))
-    movie_lists = get_lists(movie_table)
+    try:
+        movie_table = actor_page_soup.findAll('div', id=re.compile('^actor-|^actress-'))
+        movie_lists = get_lists(movie_table)
 
-    if num_of_movies_limit:
-        return movie_lists[:num_of_movies_limit]
-    
-    return movie_lists
+        if num_of_movies_limit:
+            return movie_lists[:num_of_movies_limit]
+        
+        return movie_lists
+    except(TypeError, KeyError, AttributeError) as e:
+        print(f"Error: {e}")
 
 async def get_movie_distance(actor_start, actor_end, session, num_of_actors_limit = None, num_of_movies_limit = None):
     actor_start_url = actors[actor_start]
@@ -159,10 +165,23 @@ async def get_movie_distance_bi(actor_start, actor_end, session, num_of_actors_l
         if current_distance > 2:
             return 'infinite'
     
-def get_movie_descriptions_by_actor_soup(actor_page_soup, session, num_of_movies=None):
-    pass
-
-
+def get_movie_descriptions_by_actor_soup(actor_page_soup, num_of_movies = None):
+    try:
+        movies_lists = get_movies_by_actor_soup(actor_page_soup, num_of_movies)
+        
+        texts = ''
+        for _, movie_url in movies_lists:
+            movie = get_actor_page_soup(movie_url)
+            plot_summary = movie.find('div', id= 'titleStoryLine')
+            if plot_summary:
+                plot_summary_paragraph = plot_summary.find('p')
+                if plot_summary_paragraph:
+                    text = plot_summary_paragraph.getText().strip('\n').lstrip().rstrip().split('\n')[0]
+                    texts += text
+        
+        return texts
+    except(TypeError, KeyError, AttributeError) as e:
+        print(f"Error: {e}")
         
 
 

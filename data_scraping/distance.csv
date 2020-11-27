@@ -1,0 +1,45 @@
+,Start_Actor,End_Actor,Actor Pairs,Distance
+0,Dwayne Johnson,Chris Hemsworth,"('Dwayne Johnson', 'Chris Hemsworth')",2
+1,Dwayne Johnson,Robert Downey Jr.,"('Dwayne Johnson', 'Robert Downey Jr.')",2
+2,Dwayne Johnson,Scarlett Johansson,"('Dwayne Johnson', 'Scarlett Johansson')",2
+3,Dwayne Johnson,Chris Evans,"('Dwayne Johnson', 'Chris Evans')",2
+4,Chris Hemsworth,Robert Downey Jr.,"('Chris Hemsworth', 'Robert Downey Jr.')",1
+5,Chris Hemsworth,Jackie Chan,"('Chris Hemsworth', 'Jackie Chan')",2
+6,Chris Hemsworth,Scarlett Johansson,"('Chris Hemsworth', 'Scarlett Johansson')",1
+7,Chris Evans,Chris Hemsworth,"('Chris Evans', 'Chris Hemsworth')",1
+8,Robert Downey Jr.,Scarlett Johansson,"('Robert Downey Jr.', 'Scarlett Johansson')",1
+9,Bradley Cooper,Scarlett Johansson,"('Bradley Cooper', 'Scarlett Johansson')",1
+10,Bradley Cooper,Chris Evans,"('Bradley Cooper', 'Chris Evans')",1
+11,Adam Sandler,Scarlett Johansson,"('Adam Sandler', 'Scarlett Johansson')",2
+12,Chris Evans,Scarlett Johansson,"('Chris Evans', 'Scarlett Johansson')",1
+13,Sofia Vergara,Chris Evans,"('Sofia Vergara', 'Chris Evans')",2
+14,Chris Evans,Robert Downey Jr.,"('Chris Evans', 'Robert Downey Jr.')",1
+15,Dwayne Johnson,Jackie Chan,"('Dwayne Johnson', 'Jackie Chan')",2
+16,Bradley Cooper,Dwayne Johnson,"('Bradley Cooper', 'Dwayne Johnson')",2
+17,Adam Sandler,Dwayne Johnson,"('Adam Sandler', 'Dwayne Johnson')",2
+18,Dwayne Johnson,Sofia Vergara,"('Dwayne Johnson', 'Sofia Vergara')",2
+19,Bradley Cooper,Chris Hemsworth,"('Bradley Cooper', 'Chris Hemsworth')",2
+20,Adam Sandler,Chris Hemsworth,"('Adam Sandler', 'Chris Hemsworth')",2
+21,Chris Hemsworth,Sofia Vergara,"('Chris Hemsworth', 'Sofia Vergara')",2
+22,Jackie Chan,Adam Sandler,"('Jackie Chan', 'Adam Sandler')",2
+23,Jackie Chan,Robert Downey Jr.,"('Jackie Chan', 'Robert Downey Jr.')",2
+24,Bradley Cooper,Robert Downey Jr.,"('Bradley Cooper', 'Robert Downey Jr.')",1
+25,Adam Sandler,Robert Downey Jr.,"('Adam Sandler', 'Robert Downey Jr.')",2
+26,Scarlett Johansson,Sofia Vergara,"('Scarlett Johansson', 'Sofia Vergara')",1
+27,Adam Sandler,Chris Evans,"('Adam Sandler', 'Chris Evans')",2
+28,Adam Sandler,Sofia Vergara,"('Adam Sandler', 'Sofia Vergara')",2
+29,Bradley Cooper,Sofia Vergara,"('Bradley Cooper', 'Sofia Vergara')",2
+30,Adam Sandler,Bradley Cooper,"('Adam Sandler', 'Bradley Cooper')",2
+31,Robert Downey Jr.,Sofia Vergara,"('Robert Downey Jr.', 'Sofia Vergara')",1
+32,Jackie Chan,Scarlett Johansson,"('Jackie Chan', 'Scarlett Johansson')",2
+33,Jackie Chan,Chris Evans,"('Jackie Chan', 'Chris Evans')",2
+34,Akshay Kumar,Chris Hemsworth,"('Akshay Kumar', 'Chris Hemsworth')",2
+35,Akshay Kumar,Dwayne Johnson,"('Akshay Kumar', 'Dwayne Johnson')",2
+36,Akshay Kumar,Jackie Chan,"('Akshay Kumar', 'Jackie Chan')",2
+37,Akshay Kumar,Bradley Cooper,"('Akshay Kumar', 'Bradley Cooper')",2
+38,Adam Sandler,Akshay Kumar,"('Adam Sandler', 'Akshay Kumar')",2
+39,Akshay Kumar,Scarlett Johansson,"('Akshay Kumar', 'Scarlett Johansson')",2
+40,Akshay Kumar,Sofia Vergara,"('Akshay Kumar', 'Sofia Vergara')",2
+41,Akshay Kumar,Chris Evans,"('Akshay Kumar', 'Chris Evans')",2
+42,Jackie Chan,Sofia Vergara,"('Jackie Chan', 'Sofia Vergara')",2
+43,Jackie Chan,Bradley Cooper,"('Jackie Chan', 'Bradley Cooper')",2
