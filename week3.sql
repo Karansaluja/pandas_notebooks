@@ -17,7 +17,7 @@ co2.gnp/co3.gnp - (co2.surfacearea/co2.population)/(co4.surfacearea/co4.populati
 limit 10;
 
 #pr3
-select 'GLE' as "Indicator", co1.lifeexpectancy as "Federal Republic", co2.lifeexpectancy as "Republic", co3.lifeexpectancy (as "Others"
+select 'GLE' as "Indicator", co1.lifeexpectancy as "Federal Republic", co2.lifeexpectancy as "Republic", co3.lifeexpectancy as "Others"
 from country col
 cross join 
 (
@@ -48,3 +48,15 @@ cross join
 where co1.governmentform = 'Federal Republic'
 order by co1.lifeexpectancy asc limit 1
 )
+
+#pr 4-1
+select ct.* from city as ct
+left join country on country.capital = ct.id
+where country.capital is NULL and ct.population >= 8000000;
+
+select c.name countryname,  ct.name cityname,  ct.population as city_population
+from city as ct 
+join country as c on c.code = ct.countrycode 
+join (select avg(population) as ave, countrycode from city group by countrycode) ct1 on ct1.countrycode = ct.countrycode 
+where ct.population > ct1.ave
+order by c.name, ct.name;
