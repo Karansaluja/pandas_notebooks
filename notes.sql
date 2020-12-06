@@ -27,6 +27,8 @@ grant planadmin to ivan;
 grant planmanager to sophie;
 grant planmanager to kirill;
 
+Grant usage on schema public to planadmin, planmanager;
+
 grant select on all tables in schema public to planadmin;
 grant select on all tables in schema public to planmanager;
 
@@ -128,10 +130,107 @@ left join
 (select c.countrycode country, categoryid pcid, sum(salesamt)/2 as salesamt 
 from company_sales cs
 left join company as c on cs.cid = c.id 
-left join country_managers cm on cm.country  = c.countrycode 
 where quarter_yr = '1' and ccls != 'C' and year < '2014'
 group by c.countrycode , categoryid
 order by c.countrycode , categoryid) as t on t.country = countryregioncode and t.pcid = productcategoryid
 order by countryregioncode, productcategoryid;
 
 select * from company_abc where year = '2013' order by cls desc, salestotal desc;
+
+select all user;
+
+select * from plan_status ps;
+
+select sum(salesamt) from company_sales where quarter_yr = 1;
+
+update v_plan_edit
+		set salesamt = salesamt*1.3;
+
+	
+select pd.* from plan_data pd 
+join country_managers cm using(country)
+where cm.username = current_user and pd.versionid = 'P' and pd.quarterid = '2';
+
+select * from
+(select pd.quarterid, pd.country country, pc.name categoryname, pd.salesamt plan_salesamt from plan_data pd
+join productcategory pc on pc.productcategoryid = pd.pcid
+where pd.versionid = 'P'and pd.quarterid = '2014.1')plan
+join
+(select distinct c.countrycode country, p2.pcname pcname, p2.pcid, to_char(sh.orderdate::date, 'YYYY.Q')as quarterid,
+sum(sd.linetotal)over(partition by c.countrycode,extract(quarter from sh.orderdate), p2.pcid) as salesamt
+from salesorderdetail sd
+join salesorderheader sh using(salesorderid)
+join customer cu using(customerid)
+join company c on cu.companyname = c.cname 
+join product2 p2 using(productid)
+where to_char(sh.orderdate::date, 'YYYY.Q') = '2014.1' and c.id not in (
+select cid from(
+select *, sum(ratings.sale_company)over(rows between unbounded preceding and current row) as SRT
+from (select c.id as cid, sum(sales.subtotal) as sale_company,extract(year from sales.orderdate) as year
+from salesorderheader sales
+join customer cus using(customerid)
+join company c on cus.companyname = c.cname
+where extract(year from sales.orderdate) = 2014
+group by c.id, extract(year from sales.orderdate) 
+order by year desc, sale_company desc
+)ratings
+join 
+(select sum(salestotal.subtotal) as totalsales, extract(year from salestotal.orderdate) as year, 
+sum(salestotal.subtotal)*0.8 as sa, sum(salestotal.subtotal)*0.95 sb
+from salesorderheader salestotal
+join customer cus using (customerid)
+join company c on cus.companyname = c.cname 
+where extract(year from salestotal.orderdate) = 2014
+group by extract(year from salestotal.orderdate)
+order by extract(year from salestotal.orderdate) desc) total using (year))t where t.srt > t.sb))plan1 
+on plan.country = plan1.country and plan.categoryname = plan1.pcname;
+
+
+select distinct c.countrycode, p2.pcname, p2.pcid, to_char(sh.orderdate::date, 'YYYY.Q')as quarterid,
+sum(sd.linetotal)over(partition by c.countrycode,extract(quarter from sh.orderdate), p2.pcid) as salesamt
+from salesorderdetail sd
+join salesorderheader sh using(salesorderid)
+join customer cu using(customerid)
+join company c on cu.companyname = c.cname 
+join product2 p2 using(productid)
+where to_char(sh.orderdate::date, 'YYYY.Q') = '2014.1' and c.id not in (
+select cid from(
+select *, sum(ratings.sale_company)over(rows between unbounded preceding and current row) as SRT
+from (select c.id as cid, sum(sales.subtotal) as sale_company,extract(year from sales.orderdate) as year
+from salesorderheader sales
+join customer cus using(customerid)
+join company c on cus.companyname = c.cname
+where extract(year from sales.orderdate) = 2014
+group by c.id, extract(year from sales.orderdate) 
+order by year desc, sale_company desc
+)ratings
+join 
+(select sum(salestotal.subtotal) as totalsales, extract(year from salestotal.orderdate) as year, 
+sum(salestotal.subtotal)*0.8 as sa, sum(salestotal.subtotal)*0.95 sb
+from salesorderheader salestotal
+join customer cus using (customerid)
+join company c on cus.companyname = c.cname 
+where extract(year from salestotal.orderdate) = 2014
+group by extract(year from salestotal.orderdate)
+order by extract(year from salestotal.orderdate) desc) total using (year))t where t.srt > t.sb);
+
+
+select cid from(
+select *, sum(ratings.sale_company)over(partition by year order by year desc rows between unbounded preceding and current row) as SRT
+from (select c.id as cid, sum(sales.subtotal) as sale_company,extract(year from sales.orderdate) as year
+from salesorderheader sales
+join customer cus using(customerid)
+join company c on cus.companyname = c.cname
+where extract(year from sales.orderdate) = 2014
+group by c.id, extract(year from sales.orderdate) 
+order by year desc, sale_company desc
+)ratings
+join 
+(select sum(salestotal.subtotal) as totalsales, extract(year from salestotal.orderdate) as year, 
+sum(salestotal.subtotal)*0.95 sb
+from salesorderheader salestotal
+join customer cus using (customerid)
+join company c on cus.companyname = c.cname 
+where extract(year from salestotal.orderdate) = 2014
+group by extract(year from salestotal.orderdate)
+order by extract(year from salestotal.orderdate) desc) total using (year))t where t.srt <= t.sb; 
