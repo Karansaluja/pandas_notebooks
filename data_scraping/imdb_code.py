@@ -58,7 +58,52 @@ def get_movies_by_actor_soup(actor_page_soup, num_of_movies_limit = None):
     except(TypeError, KeyError, AttributeError) as e:
         print(f"Error: {e}")
 
-async def get_movie_distance(actor_start, actor_end, session, num_of_actors_limit = None, num_of_movies_limit = None):
+#non-async version
+def get_movie_distance(actor_start_url, actor_end_url, num_of_actors_limit = None, num_of_movies_limit = None):
+    start_actor_soup = get_actor_page_soup(actor_start_url)
+    start_movie_lists = [movie_url for (_, movie_url) in get_movies_by_actor_soup(start_actor_soup)]
+    start_movie_credit_lists = get_movie_credits_urls(start_movie_lists)
+
+    current_distance = 1
+
+
+    while True:
+            actors_to_check = []
+            movies_to_check = []
+
+            #actors_list_url for each movie
+            current_movie_credits_soups = [get_cast_page_soup(url) for url in start_movie_credit_lists]
+
+            #actor_lists for each movie, get_actors_by_movie_soup
+            for current_movies_credit_soup in current_movie_credits_soups:
+                actors_to_check+=get_actors_by_movie_soup(current_movies_credit_soup, num_of_actors_limit)
+                        
+            actors_to_check = list(dict.fromkeys(actors_to_check))
+
+            for actor_name, actor_url in actors_to_check:
+                if actor_url == actor_end_url:
+                    print('complete')
+                    print(actor_start_url, actor_name, current_distance)
+                    time.sleep(10)
+                    return current_distance
+                        
+            current_distance += 1
+
+            if current_distance > 2:
+                return 'infinite'
+
+            current_actor_soups = [get_actor_page_soup(url) for (_, url) in actors_to_check]
+
+            print(current_distance)
+
+            for current_actor_soup in current_actor_soups:
+                movies_to_check += get_movies_by_actor_soup(current_actor_soup, num_of_movies_limit)
+                    
+            movies_to_check = list(dict.fromkeys(movies_to_check))
+            start_movie_credit_lists = [url_processing(url) for (_, url) in movies_to_check]
+
+#async scraping
+async def get_movie_distance_async(actor_start, actor_end, session, num_of_actors_limit = None, num_of_movies_limit = None):
     actor_start_url = actors[actor_start]
     start_actor_soup = get_actor_page_soup(actor_start_url)
     start_movie_lists = [movie_url for (_, movie_url) in get_movies_by_actor_soup(start_actor_soup, num_of_movies_limit)]
@@ -79,7 +124,7 @@ async def get_movie_distance(actor_start, actor_end, session, num_of_actors_limi
         #actor_lists for each movie, get_actors_by_movie_soup
         for current_movies_credit_response in current_movies_credit_responses:
             actors_to_check+=get_actors_by_movie_soup(BeautifulSoup(current_movies_credit_response), num_of_actors_limit)
-                
+                        
         actors_to_check = list(dict.fromkeys(actors_to_check))
 
         for actor_name, _ in actors_to_check:
@@ -88,7 +133,7 @@ async def get_movie_distance(actor_start, actor_end, session, num_of_actors_limi
                 print(actor_start, actor_end, current_distance)
                 time.sleep(10)
                 return current_distance
-                
+                        
         current_distance += 1
 
         if current_distance > 2:
@@ -101,10 +146,11 @@ async def get_movie_distance(actor_start, actor_end, session, num_of_actors_limi
 
         for current_actor_response in current_actors_responses:
             movies_to_check += get_movies_by_actor_soup(BeautifulSoup(current_actor_response), num_of_movies_limit)
-            
+                    
         movies_to_check = list(dict.fromkeys(movies_to_check))
         start_movie_credit_lists = [url_processing(url) for (_, url) in movies_to_check]
 
+#faster algorithm
 async def get_movie_distance_bi(actor_start, actor_end, session, num_of_actors_limit = None, num_of_movies_limit = None):
     actor_start_url = actors[actor_start]
     start_actor_soup = get_actor_page_soup(actor_start_url)
@@ -169,7 +215,7 @@ def get_movie_descriptions_by_actor_soup(actor_page_soup, num_of_movies = None):
     try:
         movies_lists = get_movies_by_actor_soup(actor_page_soup, num_of_movies)
         
-        texts = ''
+        texts_arr = []
         for _, movie_url in movies_lists:
             movie = get_actor_page_soup(movie_url)
             plot_summary = movie.find('div', id= 'titleStoryLine')
@@ -177,11 +223,14 @@ def get_movie_descriptions_by_actor_soup(actor_page_soup, num_of_movies = None):
                 plot_summary_paragraph = plot_summary.find('p')
                 if plot_summary_paragraph:
                     text = plot_summary_paragraph.getText().strip('\n').lstrip().rstrip().split('\n')[0]
-                    texts += text
+                    texts_arr.append(text)
         
-        return texts
+        return texts_arr
     except(TypeError, KeyError, AttributeError) as e:
         print(f"Error: {e}")
+
+# get_movie_distance('https://www.imdb.com/name/nm0000375/','https://www.imdb.com/name/nm0262635/')
+get_movie_distance('https://www.imdb.com/name/nm0425005/', 'https://www.imdb.com/name/nm1165110/') 
         
 
 
