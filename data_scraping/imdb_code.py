@@ -230,7 +230,7 @@ def get_movie_descriptions_by_actor_soup(actor_page_soup, num_of_movies = None):
         print(f"Error: {e}")
 
 # get_movie_distance('https://www.imdb.com/name/nm0000375/','https://www.imdb.com/name/nm0262635/')
-get_movie_distance('https://www.imdb.com/name/nm0425005/', 'https://www.imdb.com/name/nm1165110/') 
+# get_movie_distance('https://www.imdb.com/name/nm0425005/', 'https://www.imdb.com/name/nm1165110/', 5, 5) 
         
 
 
