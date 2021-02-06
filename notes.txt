@@ -1,0 +1,32 @@
+data scraping week1
+Encodings
+Hello! For those of you, who prefer text to video I suggest you to read these two articles about encodings:
+
+The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)
+What every programmer absolutely, positively needs to know about encodings and character sets to work with text
+They tell about what encodings are, why we need them and what unicode is. Some of you may find these articles a better explanation of a material, some of you may use them as additional material, to strengthen your knowledge of concept covered this week.
+
+Number systems
+This week we also slightly brought up a topic of numeral systems. For those of you who are not really familiar with the concept, and who are eager to get a better understanding, try this article:
+
+Number Systems: An Introduction to Binary, Hexadecimal, and More
+And it doesn't matter, whether you understand numeral systems or you don't, in any way this numeral systems converer is going to be useful to you:
+
+Numeral systems converter
+Additional links
+And some more links.
+
+ASCII - wiki-article, where you can find all ASCII-characters and their code points. Might be useful sometimes.
+UTF-8 - wiki-article, where you can find a template for UTF-8 encoding: how character code point is transformed into a binary sequence.
+Unicode Web-Site - Unicode web-site, with all the news and updates, and with specification of all the characters.
+
+d3
+1. access data
+2. create chart dimensions
+3. draw canvas
+4. create scales
+5. draw data
+6. draw peripherals
+7. set up interactions
+
+const xAccessor = d=>d3.timeParse("%Y-%m-%d")
